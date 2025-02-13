@@ -19,7 +19,7 @@ import net.runelite.client.ui.overlay.OverlayManager;
 	name = "LFG Helper",
 	description = "Helps organize LFG posts for Discord",
 	tags = {"lfg", "discord", "group"},
-	enabledByDefault = false // This should disable it by default
+
 )
 public class lfghelperplugin extends Plugin {
 
