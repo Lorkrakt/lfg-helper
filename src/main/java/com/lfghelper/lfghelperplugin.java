@@ -18,7 +18,7 @@ import net.runelite.client.ui.overlay.OverlayManager;
 @PluginDescriptor(
 	name = "LFG Helper",
 	description = "Helps organize LFG posts for Discord",
-	tags = {"lfg", "discord", "group"},
+	tags = {"lfg", "discord", "group"}
 
 )
 public class lfghelperplugin extends Plugin {
