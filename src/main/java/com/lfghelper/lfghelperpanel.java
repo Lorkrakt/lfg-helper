@@ -13,12 +13,12 @@ import java.io.IOException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-
 @Slf4j
 public class lfghelperpanel extends PluginPanel
 {
 	private final lfghelperconfig config;
 	private final OkHttpClient httpClient;
+	private final Gson gson;
 
 	private JTextField bossField;
 	private JTextField clanchatField;
@@ -33,11 +33,12 @@ public class lfghelperpanel extends PluginPanel
 	private static final long RATE_LIMIT_TIME = 5 * 60 * 1000; // 5 minutes
 
 	@Inject
-	public lfghelperpanel(lfghelperconfig config, Client client, OkHttpClient httpClient)
+	public lfghelperpanel(lfghelperconfig config, Client client, OkHttpClient httpClient, Gson gson)
 	{
 		this.config = config;
 		this.client = client;
 		this.httpClient = httpClient;
+		this.gson = gson; // Injected instead of creating new Gson
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setPreferredSize(new Dimension(300, 400));
@@ -152,8 +153,7 @@ public class lfghelperpanel extends PluginPanel
 
 		String roleId = config.roleId();
 
-		// Build JSON using Gson
-		Gson gson = new Gson();
+		// Build JSON using injected Gson
 		JsonObject embedField1 = new JsonObject();
 		embedField1.addProperty("name", "Boss");
 		embedField1.addProperty("value", boss);
@@ -190,7 +190,6 @@ public class lfghelperpanel extends PluginPanel
 
 		sendToDiscord(gson.toJson(jsonPayload));
 	}
-
 
 	private void sendToDiscord(String jsonPayload)
 	{
