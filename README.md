@@ -34,10 +34,19 @@ A webhook is required for the plugin to send LFG messages to your Discord server
 - Provide this URL to users who will be using the plugin
 
 ### 2️⃣ Create a "PVMer" Role
-To allow the plugin to tag players looking for groups, create a role named **PVMer** (or another role of your choice).
+To allow the plugin to tag players looking for groups, create a role that will specifically be used for people who want the LFG functions.
 - Go to **Server Settings → Roles → Create Role**
 - Assign this role to users who want LFG notifications
 - Copy the **Role ID** and provide it to plugin users
+
+### Note
+In order to get the role ID you must turn on developer mode. As long as you're not changing the role name constantly - this can be done once and never again.
+- On Desktop:
+- Go to User Settings (click the gear icon next to your username).
+- Scroll down to Advanced under App Settings.
+- Toggle on Developer Mode.
+- Go to Server Settings → Roles.
+- Right-click the role and select Copy ID.
 
 🔹 **No Security Risk**: Sharing the role ID does not pose any security concerns as long as no additional permissions are assigned to the role. The ID is simply used for tagging in Discord messages.
 
