@@ -1,7 +1,7 @@
 package com.lfghelper;
 
+import com.google.inject.Injector;
 import com.google.inject.Provides;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import net.runelite.api.Client;
 import net.runelite.client.config.ConfigManager;
@@ -9,17 +9,14 @@ import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.NavigationButton;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.Objects;
 import net.runelite.client.ui.overlay.OverlayManager;
+import net.runelite.client.util.ImageUtil;
 
 @PluginDescriptor(
 	name = "LFG Helper",
 	description = "Helps organize LFG posts for Discord",
-	tags = {"lfg", "discord", "group"},
-	enabledByDefault = false // This should disable it by default
+	tags = {"lfg", "discord", "group"}
 )
 public class lfghelperplugin extends Plugin {
 
@@ -38,45 +35,30 @@ public class lfghelperplugin extends Plugin {
 	@Inject
 	private OverlayManager overlayManager; // Inject OverlayManager if you need overlays
 
+	@Inject
+	private okhttp3.OkHttpClient httpClient; // Inject OkHttpClient
+
+	@Inject
+	private Injector injector; // Inject the Injector to get instances
+
 	@Override
 	protected void startUp() throws Exception {
-		// Initialize the panel with the required config
-		panel = new lfghelperpanel(config, client);  // Pass config object here
+		// Use injector to get the instance of lfghelperpanel
+		panel = injector.getInstance(lfghelperpanel.class);
 
-		// Load the image as BufferedImage
-		try {
-			BufferedImage originalImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/com/lfghelper/icon.png")));
+		// Load the image using ImageUtil
+		BufferedImage icon = ImageUtil.loadImageResource(getClass(), "/com/lfghelper/icon.png");
 
-			if (originalImage == null) {
-				// Handle image load failure here
-				return;
-			}
+		// Create the navigation button
+		navButton = NavigationButton.builder()
+			.tooltip("LFG Helper")
+			.icon(icon) // Use the loaded image directly
+			.panel(panel)
+			.priority(5)
+			.build();
 
-			// Resize the image to fit the navigation button
-			Image resizedImage = originalImage.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-			BufferedImage bufferedImage = new BufferedImage(resizedImage.getWidth(null), resizedImage.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g = bufferedImage.createGraphics();
-			g.drawImage(resizedImage, 0, 0, null);
-			g.dispose();
-
-			// Create the navigation button using the BufferedImage
-			navButton = NavigationButton.builder()
-				.tooltip("LFG Helper") // Tooltip text for the button
-				.icon(bufferedImage) // Pass the BufferedImage as the icon
-				.panel(panel) // Assign the panel to the button
-				.priority(5) // Set the priority for button position
-				.build();
-
-			// Add the navigation button to the client toolbar
-			clientToolbar.addNavigation(navButton);
-
-			// Optionally, if you have overlays, you can add them here (if needed)
-			// overlayManager.add(new SomeOverlay()); // Add overlays here if applicable
-
-		} catch (IOException e) {
-			// Handle image loading failure here
-		}
-
+		// Add the button to the client toolbar
+		clientToolbar.addNavigation(navButton);
 	}
 
 	@Override
