@@ -230,7 +230,7 @@ public class lfghelperpanel extends PluginPanel
 				}
 				else
 				{
-					log.info("Webhook sent successfully!");
+					log.debug("Webhook sent successfully!");
 				}
 				response.close();
 			}
