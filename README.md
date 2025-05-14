@@ -2,6 +2,13 @@
 
 LFG Helper is a RuneLite plugin that helps players find groups for PvM content in Old School RuneScape. It allows users to quickly post LFG (Looking For Group) requests to a designated Discord server via a webhook.
 
+
+1.1.1 Update !!!
+New:
+Added a field for input that asks how long until your group starts. Then shares in the users local time when the event starts. 
+Added a skill level question. This includes: new, experienced, professional, and anyone welcome.
+Cleaned up plugin panel to make it not look so clunky. 
+
 ## Features
 ✅ Simple form-based UI for entering LFG details  
 ✅ Automatically includes the player's in-game name in the LFG request  
